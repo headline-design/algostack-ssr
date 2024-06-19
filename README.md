@@ -1,4 +1,4 @@
-# SIWA
+# AlgoStack SSR
 
 AlgoStack SSR is a boilerplate for building modern web applications with Algorand and Next.js. AlgoStack SSR is a multi-page application built with the Next.js app router. The best of React and Next.js, combined into a seamless experience.
 
