@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 export function constructMetadata({
   title = 'AlgoStack SSR',
   description = 'The Next.js FullStack SSR Template for Algorand.',
-  image = '/siwa-og.png',
+  image = '/algostack-og.png',
   icons = '/favicon.ico',
   noIndex = false,
 }: {
@@ -92,10 +92,14 @@ export function getLocalStorageItemSafely(key, defaultValue = undefined) {
   return null;
 }
 
-export const tap = async <T>(value: T, cb: (value: T) => Promise<unknown>): Promise<T> => {
+export const tap = async <T>(
+  value: T,
+  cb: (value: T) => Promise<unknown>,
+): Promise<T> => {
   await cb(value);
   return value;
 };
+
 
 export const getSearchParams = (url: string) => {
   // Create a params object

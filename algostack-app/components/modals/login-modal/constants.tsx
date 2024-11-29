@@ -53,17 +53,10 @@ export const WEB3_PROVIDERS = [
     type: 'web3',
   },
   {
-    id: 'xwallet',
-    name: 'X Wallet',
-    icon: <IconCross className={ICON_CLASS} />,
-    connector: 'XWallet',
-    type: 'web3',
-  },
-  {
     id: 'pera',
     name: 'Pera',
     icon: <IconPera className={ICON_CLASS} />,
-    connector: 'PeraWallet',
+    connector: 'Pera',
     type: 'web3',
   },
 ];
@@ -77,17 +70,10 @@ export const WEB3_PROVIDERS_SM = [
     type: 'web3',
   },
   {
-    id: 'xwallet',
-    name: 'X Wallet',
-    icon: <IconCross className={SMALL_ICON_CLASS} />,
-    connector: 'XWallet',
-    type: 'web3',
-  },
-  {
     id: 'pera',
     name: 'Pera',
     icon: <IconPera className={SMALL_ICON_CLASS} />,
-    connector: 'PeraWallet',
+    connector: 'Pera',
     type: 'web3',
   },
 ];

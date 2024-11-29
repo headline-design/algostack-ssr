@@ -14,11 +14,10 @@ const MainView = () => {
             <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm ">
-                  Algorand Ecosystem
+                  AVM Ecosystem
                 </div>
                 <h1 className="text-3xl font-bold  md:text-6xl md:block text-3xl font-bold  sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-                  The Fullstack <br>
-                  </br>SSR Template for Algorand
+                  The Fullstack <br></br>SSR Template for Algorand and Ethereum
                 </h1>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed ">
                   A fully-loaded Web3 template that scales with Next.js. The

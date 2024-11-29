@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 export const APP_NAME = 'AlgoStackSSR';
-export const COOKIE_NAME = 'web3session';
+export const COOKIE_NAME = 'web3AVMSession';
 
 if (!process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET cannot be empty.');
@@ -33,7 +33,6 @@ class SiwaSession {
   address?: string;
   teamId?: string;
   userId?: string;
-  algoAddress: string | undefined;
   nfd?: string;
 
   constructor(session?: ISiwaSession) {

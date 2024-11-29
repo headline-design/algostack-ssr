@@ -5,14 +5,12 @@ import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { configureReduxStores } from "@/dashboard/redux/store";
-import { XWalletProvider } from "@avmkit/xwallet";
 import { Toaster } from "sonner";
-import Web3Provider from "@/algostack-app/contexts/web3-context";
+import Web3AVMProvider from "@/algostack-app/contexts/web3/avm-context";
 import {
   WalletConnectionProvider,
   useWalletConnection,
 } from "@/algostack-app/contexts/wallet-connection-context";
-import { PipeConnectors } from "@/algostack-app/utils/constants/common";
 import ModalProvider from "@/algostack-app/contexts/modal-context";
 
 export function ClientProvider({
@@ -28,12 +26,9 @@ export function ClientProvider({
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           <WalletConnectionProvider>
-            <XWalletProvider
-              useWalletConnection={useWalletConnection}
-              PipeConnectors={PipeConnectors}
-            >
-              <Web3Provider>{children}</Web3Provider>
-            </XWalletProvider>
+              <Web3AVMProvider>
+              {children}
+              </Web3AVMProvider>
           </WalletConnectionProvider>
         </SessionProvider>
       </QueryClientProvider>
@@ -63,7 +58,7 @@ export function ChildProvider({
           },
         }}
       />
-     <ModalProvider>{children}</ModalProvider>
+      <ModalProvider>{children}</ModalProvider>
     </ThemeProvider>
   );
 }

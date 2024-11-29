@@ -1,5 +1,3 @@
-"use client"
-
 import { ReactNode, useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import algosdk from "algosdk";
@@ -14,7 +12,6 @@ import { Escrow, Pipeline } from "@avmkit/pipeline";
 import algorandGlobalSelectors from "@/algostack-app/redux/algorand/global/globalSelectors";
 import useSIWAAccount from "./hooks/use-siwa-account";
 import { useSelector } from "react-redux";
-import { useXWallet } from "@avmkit/xwallet";
 import { resolveAddressToNFD } from "@avmkit/siwa";
 
 type Props = SIWAConfig & {
@@ -33,18 +30,6 @@ export function uint8ArrayToBase64(bytes) {
   return btoa(String.fromCharCode.apply(null, bytes));
 }
 
-// Function to convert the first 65 bytes of Uint8Array to Ethereum-like hex string
-function uint8ArrayToEthereumHexString(arr) {
-  // Take the first 65 bytes only
-  const first65Bytes = arr.slice(0, 65);
-  return (
-    "0x" +
-    Array.from(first65Bytes, (byte) => byte.toString().padStart(2, "0")).join(
-      "",
-    )
-  );
-}
-
 export const SIWAProvider = ({
   children,
   enabled = true,
@@ -59,7 +44,6 @@ export const SIWAProvider = ({
 }: Props) => {
   const [status, setStatus] = useState<StatusState>(StatusState.READY);
   const resetStatus = () => setStatus(StatusState.READY);
-  const { openXWalletModal } = useXWallet();
 
   const pipeState = useSelector(
     algorandGlobalSelectors.selectCurrentPipeConnectState,
@@ -98,7 +82,7 @@ export const SIWAProvider = ({
     return true;
   };
 
-  const { address, chain } = useSIWAAccount();
+  const { chain } = useSIWAAccount();
 
   const onError = (error: any) => {
     console.error("signIn error", error.code, error.message);
@@ -122,6 +106,7 @@ export const SIWAProvider = ({
       }
 
       const chainId = chain?.id;
+      const address = Pipeline.address;
       if (!address) throw new Error("No address found");
       if (!chainId) throw new Error("No chainId found");
 
@@ -133,7 +118,6 @@ export const SIWAProvider = ({
 
       const message = siwaConfig.createMessage({
         address,
-        algoAddress: Pipeline.address,
         chainId: 100,
         nonce: nonce?.data,
       });
@@ -174,46 +158,19 @@ export const SIWAProvider = ({
             Pipeline.address,
           );
 
-          console.log(`Signature is valid: ${isValid}`);
-        } else if (pipeState.provider === "escrow") {
-          // Encode the hashed message consistently
-
-          if (!Escrow.secret) {
-            openXWalletModal();
-          }
-
-          const encodedHashedMessage = new Uint8Array(
-            Buffer.from(hashedMessage),
-          );
-
-          // Sign the bytes using the escrow secret
-          algoSig = algosdk.signBytes(
-            encodedHashedMessage,
-            Escrow.secret as unknown as Uint8Array,
-          );
-
-          // Verify the signature to ensure its validity
-          const isValid = algosdk.verifyBytes(
-            encodedHashedMessage,
-            algoSig,
-            Pipeline.address,
-          );
-          console.log(`Signature is valid: ${isValid}`);
-        }
+          console.log(`Signature is valid: ${isValid}`);        }
       } catch (error) {
         console.error("Error during signing process:", error);
       }
 
       let algoSigBase64 = uint8ArrayToBase64(algoSig);
-      const ethSig = uint8ArrayToEthereumHexString(algoSig);
 
       // Construct the verifyMessage parameters conditionally
       const verifyParams: any = {
         message,
-        signature: ethSig,
-        address: address,
-        algoAddress: Pipeline.address,
-        algoSignature: algoSigBase64,
+        signature: algoSigBase64,
+        address: Pipeline.address,
+        provider: pipeState.provider === "Perawallet" ? "Pera" : "Kibisis",
       };
 
       if (nfd) {
